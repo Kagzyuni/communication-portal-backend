@@ -1,15 +1,27 @@
 package com.communication.portal.controller;
 
+import com.communication.portal.manager.AccountManager;
+import com.communication.portal.model.LoginModel;
+import com.communication.portal.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 public class AccountsController {
 
-    @GetMapping(value = "login")
-    public ResponseEntity<String> loginUser(){
-        return new ResponseEntity<>("Logged In",HttpStatus.OK);
+    @Autowired
+    private AccountManager accountManager;
+
+    @PostMapping(value = "login")
+    public ResponseEntity<User> loginUser(@RequestBody LoginModel loginModel){
+        return new ResponseEntity<>(accountManager.authenticateUser(loginModel),HttpStatus.OK);
+    }
+
+    @PostMapping(value = "register")
+    public ResponseEntity<String> registerUser(@RequestBody User user){
+        return new ResponseEntity<>(accountManager.registerUser(user),HttpStatus.OK);
     }
 }
