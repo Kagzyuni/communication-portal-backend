@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class AccountsController {
@@ -23,5 +25,10 @@ public class AccountsController {
     @PostMapping(value = "register")
     public ResponseEntity<String> registerUser(@RequestBody User user){
         return new ResponseEntity<>(accountManager.registerUser(user),HttpStatus.OK);
+    }
+
+    @GetMapping(value = "users")
+    public ResponseEntity<List<User>> getUsers(){
+        return new ResponseEntity<>(accountManager.getAllUsers(),HttpStatus.OK);
     }
 }

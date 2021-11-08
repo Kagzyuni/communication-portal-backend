@@ -6,6 +6,7 @@ import com.communication.portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,7 +19,6 @@ public class AccountManager {
     public String registerUser(User user){
 
         try {
-            System.out.println();
             userRepository.save(user);
         } catch (Exception e){
             throw new RuntimeException("Error Registering Account");
@@ -48,5 +48,16 @@ public class AccountManager {
             valid.set(loginModel.getPassword().equalsIgnoreCase(user1.getPassword()));
         });
         return valid.get();
+    }
+
+    public List<User> getAllUsers(){
+        List<User> users;
+        try {
+            users = userRepository.findAll();
+        } catch (Exception ex){
+            throw new RuntimeException("Error pulling users");
+        }
+
+        return users;
     }
 }
